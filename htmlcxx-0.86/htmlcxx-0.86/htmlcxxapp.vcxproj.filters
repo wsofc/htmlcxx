@@ -16,6 +16,9 @@
     <Filter Include="include">
       <UniqueIdentifier>{51a9e06c-1b92-4574-bce5-d0ff26407c24}</UniqueIdentifier>
     </Filter>
+    <Filter Include="css">
+      <UniqueIdentifier>{e0b58d08-733f-49a2-bee1-a18dcff3d7cd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="htmlcxx.cc">
@@ -23,6 +26,18 @@
     </ClCompile>
     <ClCompile Include="wingetopt.c">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="css\css_lex.c">
+      <Filter>css</Filter>
+    </ClCompile>
+    <ClCompile Include="css\css_syntax.c">
+      <Filter>css</Filter>
+    </ClCompile>
+    <ClCompile Include="css\parser.c">
+      <Filter>css</Filter>
+    </ClCompile>
+    <ClCompile Include="css\parser_pp.cc">
+      <Filter>css</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -68,10 +83,40 @@
     <ClInclude Include="..\include\wincstring.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="css\css_lex.h">
+      <Filter>css</Filter>
+    </ClInclude>
+    <ClInclude Include="css\css_syntax.h">
+      <Filter>css</Filter>
+    </ClInclude>
+    <ClInclude Include="css\parser.h">
+      <Filter>css</Filter>
+    </ClInclude>
+    <ClInclude Include="css\parser_pp.h">
+      <Filter>css</Filter>
+    </ClInclude>
+    <ClInclude Include="css\unistd.h">
+      <Filter>css</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\include\ParserSax.tcc">
       <Filter>include</Filter>
+    </None>
+    <None Include="css\css_lex.l">
+      <Filter>css</Filter>
+    </None>
+    <None Include="css\css_syntax.y">
+      <Filter>css</Filter>
+    </None>
+    <None Include="css\default.css">
+      <Filter>css</Filter>
+    </None>
+    <None Include="css\Makefile.am">
+      <Filter>css</Filter>
+    </None>
+    <None Include="css\Makefile.in">
+      <Filter>css</Filter>
     </None>
   </ItemGroup>
 </Project>

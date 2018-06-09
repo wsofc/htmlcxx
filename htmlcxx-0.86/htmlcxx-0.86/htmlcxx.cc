@@ -1,7 +1,8 @@
 //#include "html/ParserDom.h"
 //#include "html/utils.h"
 //#include "html/wincstring.h"
-//#include "css/parser_pp.h"
+
+#include "css/parser_pp.h"
 #ifndef WIN32
 #include "config.h"
 #else
@@ -17,7 +18,7 @@
 #include "wingetopt.h"
 #include "../include/ParserDom.h"
 
-#ifdef DEBUG
+#if DEBUG || _DEBUG
 	#pragma comment(lib,"../lib/htmlcxx_d.lib")
 #else
 	#pragma comment(lib,"../lib/htmlcxx.lib")
@@ -44,6 +45,8 @@ int main(int argc, char **argv)
 {
 	bool parse_css = true;
 	string css_code;
+	tree<HTML::Node> tr;
+
 	try
 	{
 		//while (1)
@@ -113,20 +116,23 @@ int main(int argc, char **argv)
 		//	fcss.close();
 		//}
 
+		std::string strHTML = "<html><body>hey</body></html>";
 		HTML::ParserDom parser;
-		tree<HTML::Node> tr = parser.parseTree("www.baidu.com");
-		for (tree<HTML::Node>::iterator it = tr.begin(); it != tr.end(); ++it)
-		{
-			std::cout << *it << endl;
-		}
-		system("pause");
+		tr = parser.parseTree(strHTML);
+
+		//Êä³öÕû¿ÃDOMÊ÷
+		std::cout << tr << std::endl;
+		//for (tree<HTML::Node>::iterator it = tr.begin(); it != tr.end(); ++it)
+		//{
+		//	std::cout << *it << endl;
+		//}
 	}
 	catch (exception &e) {
-		cerr << "Exception " << e.what() << " caught" << endl;
+		cerr << "Exception " << e.what() << " caught" << std::endl;
 		exit(1);
 	}
 	catch (...) {
-		cerr << "Unknow exception caught " << endl;
+		cerr << "Unknow exception caught " << std::endl;
 	}
 
 #ifdef WIN32
@@ -148,8 +154,8 @@ int main(int argc, char **argv)
 			css_parser.parse(css_code);
 		}
 
-		cout << "CSS attributes:" << endl;
-		cout << endl;
+		std::cout << "CSS attributes:" << endl;
+		std::cout << endl;
 		while (it != end) 
 		{
 
@@ -177,12 +183,11 @@ int main(int argc, char **argv)
 
 				string tag = it->tagName();
 				for(unsigned int i = 0; i < tag.size(); ++i) tag[i] = ::toupper(tag[i]);
-				cout << tag << "@[" << it->offset() << ":" << it->offset() + it->length() << ")" << endl;
-				for(; mit != mend; ++mit) cout << mit->first << ": " << mit->second << endl;
-				cout << endl;
+				std::cout << tag << "@[" << it->offset() << ":" << it->offset() + it->length() << ")" << std::endl;
+				for (; mit != mend; ++mit) std::cout << mit->first << ": " << mit->second << std::endl;
+				std::cout << std::endl;
 
-
-				if (strcasecmp(it->tagName().c_str(), "STYLE") == 0) 
+				if (_tcscmp(it->tagName().c_str(), "STYLE") == 0)
 				{
 					tree<HTML::Node>::iterator begin, end;
 					begin = it;
@@ -209,6 +214,8 @@ int main(int argc, char **argv)
 		cerr << "Unknow exception caught " << endl;
 	}
 
+	// ÔÝÍ£
+	system("pause");
 	exit(0);
 #endif
 }

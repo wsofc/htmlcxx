@@ -86,6 +86,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="css\css_lex.c" />
+    <ClCompile Include="css\css_syntax.c" />
+    <ClCompile Include="css\parser.c" />
+    <ClCompile Include="css\parser_pp.cc" />
     <ClCompile Include="htmlcxx.cc" />
     <ClCompile Include="wingetopt.c" />
   </ItemGroup>
@@ -102,11 +106,21 @@
     <ClInclude Include="..\include\Uri.h" />
     <ClInclude Include="..\include\utils.h" />
     <ClInclude Include="..\include\wincstring.h" />
+    <ClInclude Include="css\css_lex.h" />
+    <ClInclude Include="css\css_syntax.h" />
+    <ClInclude Include="css\parser.h" />
+    <ClInclude Include="css\parser_pp.h" />
+    <ClInclude Include="css\unistd.h" />
     <ClInclude Include="html\wincstring.h" />
     <ClInclude Include="wingetopt.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\include\ParserSax.tcc" />
+    <None Include="css\css_lex.l" />
+    <None Include="css\css_syntax.y" />
+    <None Include="css\default.css" />
+    <None Include="css\Makefile.am" />
+    <None Include="css\Makefile.in" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
