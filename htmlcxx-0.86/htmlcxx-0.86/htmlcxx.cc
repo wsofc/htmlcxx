@@ -1,7 +1,7 @@
-#include "html/ParserDom.h"
-#include "html/utils.h"
-#include "html/wincstring.h"
-#include "css/parser_pp.h"
+//#include "html/ParserDom.h"
+//#include "html/utils.h"
+//#include "html/wincstring.h"
+//#include "css/parser_pp.h"
 #ifndef WIN32
 #include "config.h"
 #else
@@ -15,6 +15,13 @@
 #include <cstdio>
 
 #include "wingetopt.h"
+#include "../include/ParserDom.h"
+
+#ifdef DEBUG
+	#pragma comment(lib,"../lib/htmlcxx_d.lib")
+#else
+	#pragma comment(lib,"../lib/htmlcxx.lib")
+#endif
 
 using namespace std;
 using namespace htmlcxx;
@@ -33,101 +40,102 @@ void usage_long(string prg) {
 	return;
 }
 
-int main(int argc, char **argv) 
+int main(int argc, char **argv)
 {
-	tree<HTML::Node> tr;
 	bool parse_css = true;
 	string css_code;
-	try 
+	try
 	{
-		while (1) 
-		{
-			signed char c = getopt(argc, argv, "hVC");	
-			if(c == -1) break;
-			switch(c) {
-				case 'h':
-					usage_long(argv[0]);
-					exit(0);
-					break;
-				case 'V':
-					cerr << VERSION << endl;
-					exit(0);
-				case 'C':
-					parse_css = false;
-					break;
-				default:
-					usage(argv[0]);
-					exit(1);
-					break;
-			}
-		}
+		//while (1)
+		//{
+		//	signed char c = getopt(argc, argv, "hVC");
+		//	if (c == -1) break;
+		//	switch (c) {
+		//		case 'h':
+		//			usage_long(argv[0]);
+		//			exit(0);
+		//			break;
+		//		case 'V':
+		//			cerr << VERSION << endl;
+		//			exit(0);
+		//		case 'C':
+		//			parse_css = false;
+		//			break;
+		//		default:
+		//			usage(argv[0]);
+		//			exit(1);
+		//			break;
+		//	}
+		//}
 
-		if (argc != optind + 1 && argc != optind + 2) 
-		{
-			usage(argv[0]);
-			exit(1);
-		}
+		//if (argc != optind + 1 && argc != optind + 2)
+		//{
+		//	usage(argv[0]);
+		//	exit(1);
+		//}
 
-		ifstream file(argv[optind]);
-		if (!file.is_open()) 
-		{
-			cerr << "Unable to open file " << argv[optind] << endl;
-			exit(1);
-		}
-		string html;
+		//ifstream file(argv[optind]);
+		//if (!file.is_open())
+		//{
+		//	cerr << "Unable to open file " << argv[optind] << endl;
+		//	exit(1);
+		//}
+		//string html;
 
-		while (1)
-		{
-			char buf[BUFSIZ];
-			file.read(buf, BUFSIZ);
-			if(file.gcount() == 0) {
-				break;
-			}
-			html.append(buf, file.gcount());
-		}
-		file.close();
+		//while (1)
+		//{
+		//	char buf[BUFSIZ];
+		//	file.read(buf, BUFSIZ);
+		//	if (file.gcount() == 0) {
+		//		break;
+		//	}
+		//	html.append(buf, file.gcount());
+		//}
+		//file.close();
 
-		if(argc == optind + 2) //we have a separate css file
-		{
-			ifstream fcss(argv[optind + 1]);
-			if(!fcss.is_open()) 
-			{
-				cerr << "Unable to open file " << argv[optind] << endl;
-				exit(1);
-			}
-			while (1)
-			{
-				char buf[BUFSIZ];
-				fcss.read(buf, BUFSIZ);
-				if(fcss.gcount() == 0) {
-					break;
-				}
-				css_code.append(buf, fcss.gcount());
-			}
-			fcss.close();
-		}
-
-
+		//if (argc == optind + 2) //we have a separate css file
+		//{
+		//	ifstream fcss(argv[optind + 1]);
+		//	if (!fcss.is_open())
+		//	{
+		//		cerr << "Unable to open file " << argv[optind] << endl;
+		//		exit(1);
+		//	}
+		//	while (1)
+		//	{
+		//		char buf[BUFSIZ];
+		//		fcss.read(buf, BUFSIZ);
+		//		if (fcss.gcount() == 0) {
+		//			break;
+		//		}
+		//		css_code.append(buf, fcss.gcount());
+		//	}
+		//	fcss.close();
+		//}
 
 		HTML::ParserDom parser;
-		parser.parse(html);
-		tr = parser.getTree();
-		cout << tr << endl;
-
-	} catch (exception &e) {
+		tree<HTML::Node> tr = parser.parseTree("www.baidu.com");
+		for (tree<HTML::Node>::iterator it = tr.begin(); it != tr.end(); ++it)
+		{
+			std::cout << *it << endl;
+		}
+		system("pause");
+	}
+	catch (exception &e) {
 		cerr << "Exception " << e.what() << " caught" << endl;
 		exit(1);
-	} catch (...) {
+	}
+	catch (...) {
 		cerr << "Unknow exception caught " << endl;
 	}
 
 #ifdef WIN32
-		if(parse_css)
-		{
-			cerr << "Css parsing not supported in win32" << endl;
-			return 1;
-		}
-		return 0;
+	if (parse_css)
+	{
+		cerr << "Css parsing not supported in win32" << endl;
+		return 1;
+	}
+	return 0;
 #else
 	if (parse_css) try
 	{
